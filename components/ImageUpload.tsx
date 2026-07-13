@@ -74,7 +74,7 @@ const ImageUpload = ({ onFileChange }: { onFileChange: (filePath: string) => voi
   };
 
   return (
-    <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
+    <ImageKitProvider urlEndpoint={urlEndpoint}>
       <input ref={ikUploadRef} type='file' className='hidden' onChange={handleChange} />
 
       <button className='upload-btn' onClick={(e) => {
