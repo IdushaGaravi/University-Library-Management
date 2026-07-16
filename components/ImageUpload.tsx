@@ -10,7 +10,7 @@ const { env: { imagekit : { publicKey, urlEndpoint }}} = config;
 
 const authenticator = async () => {
   try {
-    const response = await fetch(`${config.env.apiEndpoint}/api/auth/imagekit`);
+    const response = await fetch('/api/auth/imagekit');
 
     if(!response.ok) {
       const errorText = await response.text();
@@ -26,7 +26,7 @@ const authenticator = async () => {
     return { token, expire, signature};
 
   } catch (error: any) {
-    throw new Error('Authentication request failed: ${error.message}')
+    throw new Error(`Authentication request failed: ${error.message}`)
   }
 }
 
