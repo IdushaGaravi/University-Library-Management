@@ -1,6 +1,9 @@
+'use client'
+
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import BookCoverSvg from "./BookCoverSvg";
+import { Image as IKImage } from '@imagekit/next';
+import config from "@/lib/config";
 
 type BookCoverVariant = 'extraSmall' | 'small' | 'medium' | 'regular' | 'wide';
 
@@ -25,12 +28,25 @@ const BookCover = ({
   coverColor = '#012B48', 
   coverImage = 'https://placehold.co/400x600.png' 
 }: Props) => {
+  const normalizedCoverImage = coverImage?.trim() || 'https://placehold.co/400x600.png';
+  const isFullUrl = /^https?:\/\//i.test(normalizedCoverImage);
+  
+  // Construct full ImageKit URL if it's a path
+  const imageSrc = isFullUrl 
+    ? normalizedCoverImage 
+    : `${config.env.imagekit.urlEndpoint}${normalizedCoverImage}`;
+
   return (
     <div className={cn('relative transition-all duration-300', variantStyles[variant], className)}>
       <BookCoverSvg coverColor={coverColor}/>
 
       <div className="absolute z-10" style={{ left: '12%', width: '87.5%', height: '88%'}}>
-        <Image src={coverImage} alt="Book cover" fill className="rounded-sm object-fill" />
+        <img
+          src={imageSrc}
+          alt="Book cover"
+          className="h-full w-full rounded-sm object-fill"
+          loading="lazy"
+        />
       </div>
     </div>
   )
