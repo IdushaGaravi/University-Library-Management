@@ -10,6 +10,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/FileUpload";
+import ColorPicker from "../ColorPicker";
 
 interface Props extends Partial<Book> {
   type?: "create" | "update";
@@ -35,6 +36,7 @@ const BookForm = ({ type, ...book }: Props) => {
   });
 
   const onSubmit = async (values: z.infer<typeof bookSchema>) => {
+    console.log(values);
   };
 
   return (
@@ -162,7 +164,7 @@ const BookForm = ({ type, ...book }: Props) => {
                     <FieldLabel className="text-base font-normal text-dark-500">
                         Primary Color
                     </FieldLabel>
-                    {/* {Color Picker} */}
+                    <ColorPicker value={field.value} onPickerChange={field.onChange} />
                 </Field>
             )}
         />

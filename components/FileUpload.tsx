@@ -38,11 +38,12 @@ interface Props {
   folder: string;
   variant: 'dark' | 'light';
   onFileChange: (filePath: string) => void;
+  value?: string;
 }
 
-const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange }: Props) => {
+const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange, value }: Props) => {
   const ikUploadRef = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState<{ filePath: string } | null>(null);
+  const [file, setFile] = useState<{ filePath: string | null }>({filePath: value ?? null });
   const [progress, setProgress] = useState(0);
 
   const styles = {
@@ -56,7 +57,7 @@ const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange }
 
     toast(`${type} upload failed`, {
       description: `Your ${type} could not be uploaded. Please try again.`,
-      //variannt: 'destructive'
+      //variant: 'destructive'
     })
   };
 
@@ -99,6 +100,10 @@ const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange }
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
 
+    if (!onValidate(selectedFile)) return;
+
+    setProgress(0);
+
     try {
       const { token, expire, signature } = await authenticator();
 
@@ -109,6 +114,11 @@ const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange }
         signature,
         expire,
         token,
+        folder,
+        onProgress: (event) => {
+          const percent = Math.round((event.loaded / event.total) * 100);
+          setProgress(percent);
+        },
       });
 
       onSuccess(result);
@@ -122,16 +132,7 @@ const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange }
       <input 
         ref={ikUploadRef} 
         type='file' 
-        className='hidden' 
-        useUniqueFileName={true}
-        validateFile={onValidate}
-        onUploadStart={() => setProgress(0)}
-        onUploadProgress={({ loaded, total }) => {
-          const percent = Math.round((loaded / total) * 100);
-
-          setProgress(percent);
-        }}
-        folder={folder}
+        className='hidden'
         accept={accept}
         onChange={handleChange} />
 
@@ -174,7 +175,7 @@ const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange }
           />
         ): type === 'video' ? (
           <Video 
-            path={file.filePath}
+            src={file.filePath}
             controls={true}
             className='h-96 w-full rounded-xl'
           />
