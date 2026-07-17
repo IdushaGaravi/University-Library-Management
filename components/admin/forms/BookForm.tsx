@@ -1,43 +1,57 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, Path, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { bookSchema } from "@/lib/validations";
+import { createBook } from "@/lib/admin/actions/book";
+import { toast } from "sonner";
 import { Field, FieldLabel } from "@/components/ui/field";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import FileUpload from "@/components/FileUpload";
+import { Input } from "@/components/ui/input";
 import ColorPicker from "../ColorPicker";
+import { Textarea } from "@/components/ui/textarea";
+import FileUpload from "@/components/FileUpload";
+import { Button } from "@/components/ui/button";
 
 interface Props extends Partial<Book> {
   type?: "create" | "update";
 }
 
 const BookForm = ({ type, ...book }: Props) => {
-  const router = useRouter();
+    const router = useRouter();
 
-  const form = useForm<z.infer<typeof bookSchema>>({
-    resolver: zodResolver(bookSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      author: "",
-      genre: "",
-      rating: 1,
-      totalCopies: 1,
-      coverUrl: "",
-      coverColor: "",
-      videoUrl: "",
-      summary: "",
-    },
-  });
+    const form = useForm<z.infer<typeof bookSchema>>({
+        resolver: zodResolver(bookSchema),
+        defaultValues: {
+        title: "",
+        description: "",
+        author: "",
+        genre: "",
+        rating: 1,
+        totalCopies: 1,
+        coverUrl: "",
+        coverColor: "",
+        videoUrl: "",
+        summary: "",
+        },
+    });
 
-  const onSubmit = async (values: z.infer<typeof bookSchema>) => {
-    console.log(values);
-  };
+    const onSubmit = async (values: z.infer<typeof bookSchema>) => {
+            const result = await createBook(values);
+
+            if (result.success) {
+                toast.success("Success", {
+                description: "Book created successfully",
+            });
+            router.push(`/admin/books/${result.data.id}`);
+            } else {
+                toast.error("Error", {
+                description: result.message,
+            }
+        );
+    }
+};
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

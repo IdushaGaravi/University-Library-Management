@@ -55,9 +55,8 @@ const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange, 
   const onError = (error: any) => {
     console.log(error);
 
-    toast(`${type} upload failed`, {
+    toast.error(`${type} upload failed`, {
       description: `Your ${type} could not be uploaded. Please try again.`,
-      //variant: 'destructive'
     })
   };
 
