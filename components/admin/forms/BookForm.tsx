@@ -9,6 +9,7 @@ import { bookSchema } from "@/lib/validations";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import FileUpload from "@/components/FileUpload";
 
 interface Props extends Partial<Book> {
   type?: "create" | "update";
@@ -140,7 +141,15 @@ const BookForm = ({ type, ...book }: Props) => {
                     <FieldLabel className="text-base font-normal text-dark-500">
                         Book Image
                     </FieldLabel>
-                    {/* {File Upload} */}
+                        <FileUpload 
+                            type='image'
+                            accept='image/*'
+                            placeholder="Upload a book cover"
+                            folder="books/covers"
+                            variant="light"
+                            onFileChange={field.onChange}
+                            value={field.value}
+                        />
                 </Field>
             )}
         /> 
@@ -184,7 +193,15 @@ const BookForm = ({ type, ...book }: Props) => {
                     <FieldLabel className="text-base font-normal text-dark-500">
                         Book Trailer
                     </FieldLabel>
-                    {/* {File Upload} */}
+                    <FileUpload 
+                        type='video'
+                        accept='videos/*'
+                        placeholder="Upload a book trailer"
+                        folder="books/videos"
+                        variant="light"
+                        onFileChange={field.onChange}
+                        value={field.value}
+                    />
                 </Field>
             )}
         /> 
