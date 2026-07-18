@@ -20,7 +20,7 @@ const Header = () => {
             }}
             className="mb-10"
           >
-            <Button>Logout</Button>
+            <Button type="submit">Logout</Button>
           </form>
         </li>
       </ul>
