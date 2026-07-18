@@ -49,7 +49,7 @@ const getDisplayStatus = (
 const statusStyles: Record<DisplayStatus, string> = {
   Borrowed: "bg-violet-100 text-violet-700",
   Late: "bg-red-100 text-red-600",
-  Returned: "bg-blue-100 text-blue-700",
+  Returned: "bg-blue-50 text-blue-700",
 };
 
 const Page = async () => {
