@@ -9,7 +9,8 @@
     {
       "values": [
         "BORROWED",
-        "RETURNED"
+        "RETURNED",
+        "LATE_RETURN"
       ],
       "name": "borrow_status",
       "entityType": "enums",
