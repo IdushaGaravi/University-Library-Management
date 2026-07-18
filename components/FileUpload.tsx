@@ -72,20 +72,16 @@ const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange, 
   const onValidate = (file: File) => {
     if(type === 'image') {
       if(file.size > 20 * 1024 * 1024) {
-        toast({
-          title: 'File size too large',
+        toast.error('File size too large', {
           description: 'Please upload a file that is less than 20MB in size',
-          variant: 'destructive'
         });
 
         return false;
       } 
     } else if (type === 'video') {
         if(file.size > 50 * 1024 *1024) {
-          toast({
-            title: 'File size too large',
+          toast.error('File size too large', {
             description: 'Please upload a file that is less than 50MB in size',
-            variant: 'destructive'
           });
 
           return false;
@@ -164,7 +160,7 @@ const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange, 
         </div>
       )}
 
-      {file && (
+      {file?.filePath && (
         (type === 'image' ? (
           <IKImage 
             alt={file.filePath}
