@@ -23,6 +23,7 @@
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.21",
     "drizzle-orm": "^1.0.0-rc.4",
     "imagekit": "^6.0.0",
     "lucide-react": "^1.24.0",
