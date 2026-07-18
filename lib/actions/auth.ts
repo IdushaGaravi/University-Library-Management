@@ -32,7 +32,15 @@ export const signInWithCredentials = async (
       return { success: false, error: result.error };
     }
 
-    return { success: true };
+    // Fetch the role now that we know credentials are valid, so the
+    // client knows whether to redirect to /admin or the regular home page.
+    const user = await db
+      .select({ role: users.role })
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+
+    return { success: true, role: user[0]?.role ?? "USER" };
   } catch (error) {
     console.log(error, "Signin error");
     return { success: false, error: "Signin error" };

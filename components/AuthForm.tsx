@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 interface Props<T extends FieldValues> {
     schema: ZodType<T>;
     defaultValues: T;
-    onSubmit: (data: T) => Promise<{success: boolean, error?:string}>;
+    onSubmit: (data: T) => Promise<{success: boolean, error?: string, role?: "USER" | "ADMIN"}>;
     type: 'SIGN_IN' |'SIGN_UP';
 }
 
@@ -40,7 +40,13 @@ const AuthForm = <T extends FieldValues> ({ type, schema, defaultValues, onSubmi
             : "You have successfully signed up.",
         });
 
-        router.push("/");
+        if (isSignIn && result.role === "ADMIN") {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
+
+        router.refresh();
       } else {
         toast.error(`Error ${isSignIn ? "signing in" : "signing up"}`, {
           description: result.error ?? "An error occurred.",
