@@ -45,3 +45,36 @@ export const deleteBook = async (bookId: string, reason: string) => {
     return { success: false, error: "Failed to delete book" };
   }
 };
+
+export const updateBook = async (bookId: string, params: BookParams) => {
+  try {
+    const updatedBook = await db
+      .update(books)
+      .set({
+        ...params,
+      })
+      .where(eq(books.id, bookId))
+      .returning();
+
+    if (!updatedBook.length) {
+      return {
+        success: false,
+        message: "Book not found",
+      };
+    }
+
+    revalidatePath("/admin/books");
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(updatedBook[0])),
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      success: false,
+      message: "An error occurred while updating the book",
+    };
+  }
+};

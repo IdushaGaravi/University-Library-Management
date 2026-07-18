@@ -1,4 +1,5 @@
 import DeleteBookDialog from "@/components/admin/DeleteBookDialog";
+import EditBookDialog from "@/components/admin/EditBookDialog";
 import {
   Table,
   TableBody,
@@ -11,10 +12,7 @@ import { db } from "@/database/drizzle";
 import { books } from "@/database/schema";
 import config from "@/lib/config";
 import { asc } from "drizzle-orm";
-import { Pencil } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-
 
 const getCoverImageSrc = (coverUrl: string) => {
   const normalized = coverUrl?.trim() || "https://placehold.co/400x600.png";
@@ -70,9 +68,7 @@ const AllBooks = async () => {
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-3">
-                  <Link href={`/admin/books/${book.id}/edit`}>
-                    <Pencil className="size-4 text-blue-500 hover:text-blue-700" />
-                  </Link>
+                  <EditBookDialog bookId={book.id} {...book} />
                   <DeleteBookDialog bookId={book.id} bookTitle={book.title} />
                 </div>
               </TableCell>
