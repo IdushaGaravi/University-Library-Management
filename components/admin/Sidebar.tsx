@@ -7,6 +7,8 @@ import { cn, getInitials } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Session } from "next-auth";
+import { Button } from "../ui/button";
+import { logoutUser } from "@/lib/actions/auth";
 
 const Sidebar = ({ session }: { session: Session }) => {
   const pathname = usePathname();
@@ -71,6 +73,12 @@ const Sidebar = ({ session }: { session: Session }) => {
           <p className="text-xs text-light-500">{session?.user?.email}</p>
         </div>
       </div>
+
+      <form action={logoutUser} className="flex flex-col">
+        <Button type="submit" className="text-dark">
+          Logout
+        </Button>
+      </form>
     </div>
   );
 };
