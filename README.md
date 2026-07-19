@@ -19,8 +19,7 @@
 ## 🔗 Live Demo
 
 > **Production Deployment:**  
-> https://university-library-management-8arl809dt-idusha-garavis-projects.vercel.app/sign-in
-
+> https://university-library-management-six.vercel.app?_vercel_share=tbbcUAql8MfucGJABm7o2KN1GdA9zgvU
 ---
 
 ## 📌 Overview
