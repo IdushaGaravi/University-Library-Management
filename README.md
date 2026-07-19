@@ -175,6 +175,12 @@ University-Library-Management
 
 ---
 
+### Email Verification / Notification
+
+![Email Verification](./screenshots/email.png)
+
+---
+
 ### User Profile
 
 ![Profile](./screenshots/profile-page.png)
